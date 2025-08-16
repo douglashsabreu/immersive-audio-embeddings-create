@@ -1,0 +1,31 @@
+# Lizard configuration file
+# Complexity thresholds and settings
+
+# Maximum cyclomatic complexity allowed
+ccn_threshold: 10
+
+# Maximum function length allowed
+length_threshold: 50
+
+# Maximum number of parameters allowed
+arguments_threshold: 8
+
+# Exclude patterns
+exclude_patterns:
+    - "*/tests/*"
+    - "*/__pycache__/*"
+    - "*/.*"
+    - "*.egg-info/*"
+
+# File extensions to analyze
+extensions:
+    - py
+
+# Output format (can be: table, csv, json, xml)
+output_format: table
+
+# Show warnings for functions approaching thresholds
+show_warnings: true
+
+# Percentage threshold for warnings (80% of max)
+warning_threshold: 0.8

@@ -1,0 +1,104 @@
+repos:
+  # Ruff - Fast Python linter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.9
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        types_or: [python, pyi]
+      - id: ruff-format
+        types_or: [python, pyi]
+
+  # Black - Python code formatter
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3.12
+        args: [--line-length=100]
+
+  # isort - Import sorter
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black, --line-length=100]
+
+  # MyPy - Static type checker
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-requests
+          - types-setuptools
+        args: [--strict, --ignore-missing-imports]
+        exclude: ^(tests/|examples/)
+
+  # Pre-commit hooks for general file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.md$
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: debug-statements
+      - id: check-docstring-first
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: fix-byte-order-marker
+
+  # Lizard - Complexity analysis
+  - repo: local
+    hooks:
+      - id: lizard-complexity
+        name: Check code complexity with Lizard
+        entry: bash -c 'lizard embeddings_create/ --length 50 --arguments 8 --CCN 10 --exclude "*/tests/*" --exclude "*/__pycache__/*"'
+        language: system
+        types: [python]
+        pass_filenames: false
+
+  # Security checks with bandit
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.6
+    hooks:
+      - id: bandit
+        args: [-r, embeddings_create/, -f, json, -o, bandit-report.json]
+        types: [python]
+        exclude: ^tests/
+
+  # Documentation checks
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        args: [--convention=google, --add-ignore=D100,D104,D105]
+        exclude: ^(tests/|examples/|__init__\.py)
+
+  # Unused imports and variables
+  - repo: https://github.com/pycqa/autoflake
+    rev: v2.2.1
+    hooks:
+      - id: autoflake
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --remove-unused-variables
+          - --remove-duplicate-keys
+          - --ignore-init-module-imports
+
+ci:
+  autofix_commit_msg: "🤖 [pre-commit.ci] auto fixes from pre-commit hooks"
+  autofix_prs: true
+  autoupdate_branch: ""
+  autoupdate_commit_msg: "🤖 [pre-commit.ci] pre-commit autoupdate"
+  autoupdate_schedule: weekly
+  skip: [lizard-complexity] # Skip lizard in CI since it's local
+  submodules: false

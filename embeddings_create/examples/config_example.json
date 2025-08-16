@@ -1,0 +1,89 @@
+{
+  "features": [
+    {
+      "feature_type": "salsa",
+      "n_fft": 1024,
+      "hop_length": 512,
+      "n_mels": 64,
+      "sample_rate": 44100,
+      "use_pcen": true,
+      "parameters": {
+        "eps": 1e-8,
+        "normalize_eigenvector": true,
+        "stack_channels": true
+      }
+    },
+    {
+      "feature_type": "salsa_lite",
+      "n_fft": 1024,
+      "hop_length": 512,
+      "n_mels": 64,
+      "sample_rate": 44100,
+      "use_pcen": true,
+      "parameters": {
+        "reference_channel": 0,
+        "phase_wrapping": true,
+        "eps": 1e-8
+      }
+    },
+    {
+      "feature_type": "intensity_doa",
+      "n_fft": 1024,
+      "hop_length": 512,
+      "n_mels": 64,
+      "sample_rate": 44100,
+      "use_pcen": true,
+      "parameters": {
+        "azimuth_bins": 36,
+        "elevation_bins": 18,
+        "intensity_threshold": 1e-6,
+        "circular_stats": true,
+        "histogram_smoothing": true,
+        "eps": 1e-12
+      }
+    },
+    {
+      "feature_type": "diffuseness",
+      "n_fft": 1024,
+      "hop_length": 512,
+      "n_mels": 64,
+      "sample_rate": 44100,
+      "use_pcen": true,
+      "parameters": {
+        "smoothing_time": 0.1,
+        "smoothing_freq": 3,
+        "percentiles": [5, 25, 50, 75, 95],
+        "frequency_bands": 8,
+        "eps": 1e-12
+      }
+    },
+    {
+      "feature_type": "iacc",
+      "n_fft": 1024,
+      "hop_length": 512,
+      "n_mels": 64,
+      "sample_rate": 44100,
+      "use_pcen": true,
+      "parameters": {
+        "window_size": 0.1,
+        "overlap": 0.5,
+        "max_lag_ms": 1.0,
+        "frequency_bands": [
+          [20, 200],
+          [200, 500],
+          [500, 1000],
+          [1000, 2000],
+          [2000, 4000],
+          [4000, 8000]
+        ],
+        "normalize": true,
+        "absolute_iacc": true
+      }
+    }
+  ],
+  "output_directory": "./output",
+  "save_intermediate": false,
+  "parallel_processing": true,
+  "max_workers": 4,
+  "verbose": true
+}
