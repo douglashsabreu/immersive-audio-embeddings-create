@@ -1,8 +1,8 @@
-# 🛡️ Branch Protection Configuration
+# Branch Protection Configuration
 
 This document explains how to configure branch protection for this repository both locally and on GitHub.
 
-## 🏠 Local Protection (Git Hooks)
+## Local Protection (Git Hooks)
 
 ### Automatic Installation
 ```bash
@@ -25,19 +25,19 @@ make install-git-hooks
 
 ### Testing the protection:
 ```bash
-# This will be blocked ❌
+# This will be blocked
 git checkout main
 echo "test" > test.txt
 git add test.txt
-git commit -m "test"  # 🚫 ERROR: Direct commits to main branch are not allowed!
+git commit -m "test"  # ERROR: Direct commits to main branch are not allowed!
 
-# This will work ✅
+# This will work
 git checkout -b feature/my-feature
 git add test.txt
-git commit -m "feat: add test feature"  # ✅ Commit allowed
+git commit -m "feat: add test feature"  # Commit allowed
 ```
 
-## 🌐 GitHub Protection (Repository Settings)
+## GitHub Protection (Repository Settings)
 
 ### Step 1: Access Repository Settings
 1. Go to your repository on GitHub
@@ -50,30 +50,30 @@ git commit -m "feat: add test feature"  # ✅ Commit allowed
 3. Enable the following protections:
 
 #### Required Settings:
-- ✅ **Require a pull request before merging**
-  - ✅ Require approvals: `1`
-  - ✅ Dismiss stale PR approvals when new commits are pushed
-  - ✅ Require review from code owners (if you have CODEOWNERS)
+- **Require a pull request before merging**
+  - Require approvals: `1`
+  - Dismiss stale PR approvals when new commits are pushed
+  - Require review from code owners (if you have CODEOWNERS)
 
-- ✅ **Require status checks to pass before merging**
-  - ✅ Require branches to be up to date before merging
+- **Require status checks to pass before merging**
+  - Require branches to be up to date before merging
   - Add required status checks:
     - `pre-commit.ci` (if using pre-commit.ci)
     - `build` or `test` (if you have CI/CD)
 
 #### Optional but Recommended:
-- ✅ **Require conversation resolution before merging**
-- ✅ **Restrict pushes that create files**
-- ✅ **Do not allow bypassing the above settings**
+- **Require conversation resolution before merging**
+- **Restrict pushes that create files**
+- **Do not allow bypassing the above settings**
 
 #### Admin Settings:
-- ❌ **Allow force pushes** (keep disabled)
-- ❌ **Allow deletions** (keep disabled)
+- **Allow force pushes** (keep disabled)
+- **Allow deletions** (keep disabled)
 
 ### Step 3: Save Protection Rule
 Click **Create** to save the branch protection rule.
 
-## 🔄 Recommended Workflow
+## Recommended Workflow
 
 ### 1. Create Feature Branch
 ```bash
@@ -100,7 +100,7 @@ git push -u origin feature/your-feature-name
 - Ensure all checks pass
 - Merge via GitHub PR interface
 
-## 🆘 Emergency Override
+## Emergency Override
 
 If you need to bypass protections in an emergency:
 
@@ -114,7 +114,7 @@ git push --no-verify    # Skip pre-push hooks
 - Only repository admins can force merge
 - Use "Merge without waiting for requirements" (if enabled)
 
-## 📋 Verification Checklist
+## Verification Checklist
 
 After setup, verify:
 - [ ] Local commits to main are blocked
@@ -124,7 +124,7 @@ After setup, verify:
 - [ ] GitHub runs status checks
 - [ ] PR approval is required
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Hook not working?
 ```bash
@@ -144,7 +144,7 @@ The git hooks are separate from pre-commit tool. Both can coexist:
 - Verify branch name pattern is exactly `main`
 - Ensure protection rule is enabled
 
-## 📚 References
+## References
 
 - [GitHub Branch Protection Documentation](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)
 - [Git Hooks Documentation](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)

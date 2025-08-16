@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install Git Hooks for Branch Protection
-echo "🔧 Installing Git hooks for branch protection..."
+echo "Installing Git hooks for branch protection..."
 
 # Create hooks directory
 mkdir -p .git/hooks
@@ -14,8 +14,8 @@ cat > .git/hooks/pre-commit << 'EOF'
 branch=$(git rev-parse --abbrev-ref HEAD)
 
 if [ "$branch" = "main" ]; then
-    echo "🚫 ERROR: Direct commits to main branch are not allowed!"
-    echo "📝 Please create a feature branch first:"
+    echo "ERROR: Direct commits to main branch are not allowed!"
+    echo "Please create a feature branch first:"
     echo "   git checkout -b feature/your-feature-name"
     echo "   git add ."
     echo "   git commit -m 'your commit message'"
@@ -23,7 +23,7 @@ if [ "$branch" = "main" ]; then
     exit 1
 fi
 
-echo "✅ Commit allowed on branch: $branch"
+echo "Commit allowed on branch: $branch"
 exit 0
 EOF
 
@@ -35,8 +35,8 @@ cat > .git/hooks/pre-push << 'EOF'
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 if [ "$current_branch" = "main" ]; then
-    echo "🚫 ERROR: Direct push to main branch is not allowed!"
-    echo "📝 Please use Pull Requests instead:"
+    echo "ERROR: Direct push to main branch is not allowed!"
+    echo "Please use Pull Requests instead:"
     echo "   1. Create a feature branch: git checkout -b feature/your-feature"
     echo "   2. Make your changes and commit"
     echo "   3. Push feature branch: git push -u origin feature/your-feature"
@@ -51,14 +51,14 @@ EOF
 chmod +x .git/hooks/pre-commit
 chmod +x .git/hooks/pre-push
 
-echo "✅ Git hooks installed successfully!"
+echo "Git hooks installed successfully!"
 echo ""
-echo "🛡️ Branch protection is now active:"
-echo "   • Direct commits to main: ❌ BLOCKED"
-echo "   • Direct push to main: ❌ BLOCKED"
-echo "   • Feature branch commits: ✅ ALLOWED"
+echo "Branch protection is now active:"
+echo "   - Direct commits to main: BLOCKED"
+echo "   - Direct push to main: BLOCKED"
+echo "   - Feature branch commits: ALLOWED"
 echo ""
-echo "📝 Usage:"
+echo "Usage:"
 echo "   git checkout -b feature/my-new-feature"
 echo "   # make changes..."
 echo "   git add ."
