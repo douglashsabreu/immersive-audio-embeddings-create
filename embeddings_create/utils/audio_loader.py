@@ -21,7 +21,7 @@ class AudioLoader(IAudioLoader):
     focusing only on audio loading operations.
     """
 
-    def __init__(self, target_sample_rate: int = None, mono: bool = False):
+    def __init__(self, target_sample_rate: int | None = None, mono: bool = False):
         """Initialize audio loader.
 
         Args:
@@ -126,6 +126,6 @@ class AudioLoader(IAudioLoader):
 
         try:
             info = sf.info(str(file_path))
-            return info.frames > 0 and info.samplerate > 0
+            return bool(info.frames > 0 and info.samplerate > 0)
         except Exception:
             return False

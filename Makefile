@@ -71,6 +71,16 @@ pre-commit: ## Run pre-commit hooks on all files
 	pre-commit run --all-files
 	@echo "$(GREEN)✓ Pre-commit checks completed$(NC)"
 
+complexity-check: ## Run complexity analysis via pre-commit
+	@echo "$(BLUE)Running complexity analysis via pre-commit...$(NC)"
+	pre-commit run --hook-stage manual lizard-complexity --all-files
+	@echo "$(GREEN)✓ Complexity analysis completed$(NC)"
+
+pre-commit-with-complexity: ## Run pre-commit hooks including complexity analysis
+	@echo "$(BLUE)Running pre-commit hooks with complexity...$(NC)"
+	pre-commit run --hook-stage manual --all-files
+	@echo "$(GREEN)✓ All pre-commit checks completed$(NC)"
+
 clean: ## Clean cache files and build artifacts
 	@echo "$(BLUE)Cleaning cache files...$(NC)"
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true

@@ -42,4 +42,4 @@ class AudioData:
     @property
     def samples(self) -> int:
         """Get total number of samples."""
-        return len(self.signal) if self.signal.ndim == 1 else self.signal.shape[1]
+        return int(len(self.signal) if self.signal.ndim == 1 else self.signal.shape[1])

@@ -22,7 +22,7 @@ class SalsaExtractor(BaseFeatureExtractor):
     only on SALSA feature extraction.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize SALSA extractor."""
         super().__init__(FeatureType.SALSA)
 
@@ -133,7 +133,7 @@ class SalsaLiteExtractor(BaseFeatureExtractor):
     only on SALSA-Lite feature extraction.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize SALSA-Lite extractor."""
         super().__init__(FeatureType.SALSA_LITE)
 

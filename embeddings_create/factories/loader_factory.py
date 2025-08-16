@@ -1,6 +1,6 @@
 """Factory for creating audio loaders."""
 
-from typing import Any
+from typing import Any, ClassVar
 
 from embeddings_create.interfaces.audio_loader import IAudioLoader
 from embeddings_create.utils.audio_loader import AudioLoader
@@ -14,7 +14,7 @@ class LoaderFactory:
     existing code. Currently supports the standard AudioLoader implementation.
     """
 
-    _loaders: dict[str, type[IAudioLoader]] = {"standard": AudioLoader}
+    _loaders: ClassVar[dict[str, type[IAudioLoader]]] = {"standard": AudioLoader}
 
     @classmethod
     def create_loader(cls, loader_type: str = "standard", **kwargs: Any) -> IAudioLoader:

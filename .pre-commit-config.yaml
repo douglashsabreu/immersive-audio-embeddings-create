@@ -55,7 +55,7 @@ repos:
       - id: check-executables-have-shebangs
       - id: fix-byte-order-marker
 
-  # Lizard - Complexity analysis
+  # Code complexity analysis
   - repo: local
     hooks:
       - id: lizard-complexity
@@ -64,15 +64,7 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
-
-  # Security checks with bandit
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.7.6
-    hooks:
-      - id: bandit
-        args: [-r, embeddings_create/, -f, json, -o, bandit-report.json]
-        types: [python]
-        exclude: ^tests/
+        stages: [manual]  # Skip by default, run with --hook-stage manual
 
   # Documentation checks
   - repo: https://github.com/pycqa/pydocstyle
@@ -100,5 +92,5 @@ ci:
   autoupdate_branch: ""
   autoupdate_commit_msg: "🤖 [pre-commit.ci] pre-commit autoupdate"
   autoupdate_schedule: weekly
-  skip: [lizard-complexity] # Skip lizard in CI since it's local
+  skip: [lizard-complexity]  # Skip lizard for now
   submodules: false

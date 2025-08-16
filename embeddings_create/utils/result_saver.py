@@ -127,7 +127,7 @@ class ResultSaver(IResultSaver):
             result: Extraction result to save
             output_path: Output file path with .npz extension
         """
-        save_dict = {
+        save_dict: dict[str, Any] = {
             "source_file": str(result.source_file),
             "timestamp": result.timestamp.isoformat(),
             "total_extraction_time": result.total_extraction_time,
@@ -151,7 +151,7 @@ class ResultSaver(IResultSaver):
             result: Extraction result to save
             output_path: Output file path with .json extension
         """
-        json_dict = {
+        json_dict: dict[str, Any] = {
             "source_file": str(result.source_file),
             "timestamp": result.timestamp.isoformat(),
             "total_extraction_time": result.total_extraction_time,
@@ -169,7 +169,7 @@ class ResultSaver(IResultSaver):
             }
             json_dict["features"][feature_type.value] = feature_info
 
-        with open(output_path, "w") as f:
+        with output_path.open("w") as f:
             json.dump(json_dict, f, indent=2, default=str)
 
     def _serialize_metadata(self, metadata: dict[str, Any]) -> dict[str, Any]:
@@ -185,7 +185,7 @@ class ResultSaver(IResultSaver):
         for key, value in metadata.items():
             if isinstance(value, np.ndarray):
                 serialized[key] = value.tolist()
-            elif isinstance(value, (np.integer, np.floating)):
+            elif isinstance(value, np.integer | np.floating):
                 serialized[key] = value.item()
             else:
                 serialized[key] = value

@@ -25,7 +25,7 @@ class DiffusenessExtractor(BaseFeatureExtractor):
     only on diffuseness computation and statistical analysis.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize Diffuseness extractor."""
         super().__init__(FeatureType.DIFFUSENESS)
 
@@ -169,7 +169,7 @@ class DiffusenessExtractor(BaseFeatureExtractor):
         return smoothed
 
     def _compute_global_statistics(
-        self, diffuseness_map: np.ndarray, percentiles: list
+        self, diffuseness_map: np.ndarray, percentiles: list[float]
     ) -> np.ndarray:
         """Compute global statistics of diffuseness map.
 
@@ -190,7 +190,7 @@ class DiffusenessExtractor(BaseFeatureExtractor):
         return np.array(stats)
 
     def _compute_frequency_band_statistics(
-        self, diffuseness_map: np.ndarray, num_bands: int, percentiles: list
+        self, diffuseness_map: np.ndarray, num_bands: int, percentiles: list[float]
     ) -> np.ndarray:
         """Compute statistics per frequency band.
 

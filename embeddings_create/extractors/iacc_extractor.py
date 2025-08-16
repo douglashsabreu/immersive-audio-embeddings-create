@@ -29,7 +29,7 @@ class IACCExtractor(BaseFeatureExtractor):
     only on binaural correlation analysis.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize IACC extractor."""
         super().__init__(FeatureType.IACC)
 
@@ -198,7 +198,7 @@ class IACCExtractor(BaseFeatureExtractor):
         max_lag_ms: float,
         normalize: bool,
         absolute_iacc: bool,
-    ) -> list:
+    ) -> list[float]:
         """Compute IACC for a specific frequency band.
 
         Args:
