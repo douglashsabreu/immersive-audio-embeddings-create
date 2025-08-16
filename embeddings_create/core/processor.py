@@ -3,6 +3,7 @@
 import concurrent.futures
 import time
 from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 from tqdm import tqdm
 
@@ -10,10 +11,12 @@ from embeddings_create.factories.extractor_factory import ExtractorFactory
 from embeddings_create.factories.loader_factory import LoaderFactory
 from embeddings_create.factories.saver_factory import SaverFactory
 from embeddings_create.interfaces.audio_loader import IAudioLoader
-from embeddings_create.interfaces.feature_extractor import IFeatureExtractor
 from embeddings_create.interfaces.result_saver import IResultSaver
 from embeddings_create.models.extraction_result import ExtractionResult
 from embeddings_create.models.feature_config import ExtractionConfig, FeatureConfig, FeatureType
+
+if TYPE_CHECKING:
+    from embeddings_create.interfaces.feature_extractor import IFeatureExtractor
 
 
 class SpatialAudioProcessor:
@@ -253,15 +256,15 @@ class SpatialAudioProcessor:
             List of audio file paths
         """
         audio_extensions = self._audio_loader.supported_formats()
-        audio_files = []
+        audio_files: list[Path] = []
 
         for ext in audio_extensions:
             audio_files.extend(directory.rglob(f"*{ext}"))
             audio_files.extend(directory.rglob(f"*{ext.upper()}"))
 
-        return sorted(list(set(audio_files)))
+        return sorted(set(audio_files))
 
-    def get_extraction_summary(self, results: list[ExtractionResult]) -> dict[str, any]:
+    def get_extraction_summary(self, results: list[ExtractionResult]) -> dict[str, Any]:
         """Generate a summary of extraction results.
 
         Args:
@@ -274,7 +277,7 @@ class SpatialAudioProcessor:
         successful_files = sum(1 for r in results if r.is_successful)
 
         feature_counts = {}
-        total_extraction_time = 0
+        total_extraction_time = 0.0
 
         for result in results:
             if result.total_extraction_time:

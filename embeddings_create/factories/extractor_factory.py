@@ -1,5 +1,7 @@
 """Factory for creating feature extractors."""
 
+from typing import Any, ClassVar
+
 from embeddings_create.extractors.diffuseness_extractor import DiffusenessExtractor
 from embeddings_create.extractors.iacc_extractor import IACCExtractor
 from embeddings_create.extractors.intensity_doa_extractor import IntensityDOAExtractor
@@ -17,7 +19,7 @@ class ExtractorFactory:
     by returning interface types rather than concrete implementations.
     """
 
-    _extractors: dict[FeatureType, type[IFeatureExtractor]] = {
+    _extractors: ClassVar[dict[FeatureType, type[IFeatureExtractor]]] = {
         FeatureType.SALSA: SalsaExtractor,
         FeatureType.SALSA_LITE: SalsaLiteExtractor,
         FeatureType.INTENSITY_DOA: IntensityDOAExtractor,
@@ -97,12 +99,11 @@ class ExtractorFactory:
             Dictionary mapping feature types to extractor instances
         """
         return {
-            feature_type: cls.create_extractor(feature_type)
-            for feature_type in cls._extractors.keys()
+            feature_type: cls.create_extractor(feature_type) for feature_type in cls._extractors
         }
 
     @classmethod
-    def get_extractor_info(cls, feature_type: FeatureType) -> dict[str, any]:
+    def get_extractor_info(cls, feature_type: FeatureType) -> dict[str, Any]:
         """Get information about a specific extractor.
 
         Args:

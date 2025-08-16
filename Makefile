@@ -27,6 +27,11 @@ install-pre-commit: install-dev ## Install pre-commit hooks
 	pre-commit install
 	pre-commit install --hook-type commit-msg
 
+install-git-hooks: ## Install Git hooks for branch protection
+	@echo "$(BLUE)Installing Git hooks for branch protection...$(NC)"
+	./scripts/install_git_hooks.sh
+	@echo "$(GREEN)✓ Git hooks installed$(NC)"
+
 format: ## Format code with black and isort
 	@echo "$(BLUE)Formatting code...$(NC)"
 	black embeddings_create/ main.py --line-length=100
@@ -71,6 +76,16 @@ pre-commit: ## Run pre-commit hooks on all files
 	pre-commit run --all-files
 	@echo "$(GREEN)✓ Pre-commit checks completed$(NC)"
 
+complexity-check: ## Run complexity analysis via pre-commit
+	@echo "$(BLUE)Running complexity analysis via pre-commit...$(NC)"
+	pre-commit run --hook-stage manual lizard-complexity --all-files
+	@echo "$(GREEN)✓ Complexity analysis completed$(NC)"
+
+pre-commit-with-complexity: ## Run pre-commit hooks including complexity analysis
+	@echo "$(BLUE)Running pre-commit hooks with complexity...$(NC)"
+	pre-commit run --hook-stage manual --all-files
+	@echo "$(GREEN)✓ All pre-commit checks completed$(NC)"
+
 clean: ## Clean cache files and build artifacts
 	@echo "$(BLUE)Cleaning cache files...$(NC)"
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
@@ -93,7 +108,7 @@ docs-check: ## Check documentation with pydocstyle
 	pydocstyle embeddings_create/ --convention=google --add-ignore=D100,D104,D105
 	@echo "$(GREEN)✓ Documentation check completed$(NC)"
 
-install-all: install-dev install-pre-commit ## Install everything needed for development
+install-all: install-dev install-pre-commit install-git-hooks ## Install everything needed for development
 
 # Default target
 all: install-all qa test

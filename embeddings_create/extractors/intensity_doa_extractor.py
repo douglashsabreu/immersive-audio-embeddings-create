@@ -26,7 +26,7 @@ class IntensityDOAExtractor(BaseFeatureExtractor):
     only on intensity vector and DOA analysis.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize Intensity DOA extractor."""
         super().__init__(FeatureType.INTENSITY_DOA)
 
@@ -258,7 +258,7 @@ class IntensityDOAExtractor(BaseFeatureExtractor):
 
         return np.array(features)
 
-    def _circular_moments(self, angles: np.ndarray, weights: np.ndarray) -> list:
+    def _circular_moments(self, angles: np.ndarray, weights: np.ndarray) -> list[float]:
         """Compute circular statistical moments.
 
         Args:
@@ -308,7 +308,7 @@ class IntensityDOAExtractor(BaseFeatureExtractor):
 
         resultant_length = np.sqrt(mean_x**2 + mean_y**2 + mean_z**2)
 
-        return resultant_length
+        return float(resultant_length)
 
     def _compute_doa_entropy(
         self, azimuths: np.ndarray, elevations: np.ndarray, weights: np.ndarray
@@ -335,4 +335,4 @@ class IntensityDOAExtractor(BaseFeatureExtractor):
 
         entropy = -np.sum(hist_normalized * np.log(hist_normalized + 1e-12))
 
-        return entropy
+        return float(entropy)

@@ -10,15 +10,15 @@ from embeddings_create.factories.extractor_factory import ExtractorFactory
 from embeddings_create.models.feature_config import ExtractionConfig, FeatureConfig, FeatureType
 
 
-@click.command()
-@click.argument("input_path", type=click.Path(exists=True, path_type=Path))
-@click.option(
+@click.command()  # type: ignore[misc]
+@click.argument("input_path", type=click.Path(exists=True, path_type=Path))  # type: ignore[misc]
+@click.option(  # type: ignore[misc]
     "--output-dir",
     "-o",
     type=click.Path(path_type=Path),
     help="Output directory for extracted features",
 )
-@click.option(
+@click.option(  # type: ignore[misc]
     "--features",
     "-f",
     type=click.Choice([ft.value for ft in FeatureType], case_sensitive=False),
@@ -26,28 +26,28 @@ from embeddings_create.models.feature_config import ExtractionConfig, FeatureCon
     default=[ft.value for ft in FeatureType],
     help="Feature types to extract (default: all)",
 )
-@click.option("--n-fft", type=int, default=1024, help="FFT window size (default: 1024)")
-@click.option("--hop-length", type=int, default=512, help="Hop length for STFT (default: 512)")
-@click.option("--n-mels", type=int, default=64, help="Number of mel bands (default: 64)")
-@click.option("--sample-rate", type=int, default=44100, help="Target sample rate (default: 44100)")
+@click.option("--n-fft", type=int, default=1024, help="FFT window size (default: 1024)")  # type: ignore[misc]
+@click.option("--hop-length", type=int, default=512, help="Hop length for STFT (default: 512)")  # type: ignore[misc]
+@click.option("--n-mels", type=int, default=64, help="Number of mel bands (default: 64)")  # type: ignore[misc]
+@click.option("--sample-rate", type=int, default=44100, help="Target sample rate (default: 44100)")  # type: ignore[misc]
 @click.option(
     "--use-pcen/--no-pcen", default=True, help="Use PCEN instead of log-mel (default: True)"
-)
+)  # type: ignore[misc]
 @click.option(
     "--parallel/--no-parallel", default=True, help="Use parallel processing (default: True)"
-)
-@click.option("--max-workers", type=int, default=None, help="Maximum number of worker threads")
-@click.option("--verbose/--quiet", "-v/-q", default=False, help="Verbose output")
+)  # type: ignore[misc]
+@click.option("--max-workers", type=int, default=None, help="Maximum number of worker threads")  # type: ignore[misc]
+@click.option("--verbose/--quiet", "-v/-q", default=False, help="Verbose output")  # type: ignore[misc]
 @click.option(
     "--config-file",
     "-c",
     type=click.Path(exists=True, path_type=Path),
     help="JSON configuration file",
-)
+)  # type: ignore[misc]
 def main(
     input_path: Path,
     output_dir: Path | None,
-    features: tuple,
+    features: tuple[str, ...],
     n_fft: int,
     hop_length: int,
     n_mels: int,
@@ -111,7 +111,8 @@ def main(
                 if verbose:
                     for feature_type in result.extracted_features:
                         feature_result = result.get_feature(feature_type)
-                        click.echo(f"  - {feature_type.value}: {feature_result.shape}")
+                        if feature_result is not None:
+                            click.echo(f"  - {feature_type.value}: {feature_result.shape}")
             else:
                 click.echo(f"✗ Failed to process {input_path}: {result.error_message}")
 
@@ -152,7 +153,12 @@ def main(
 
 
 def _create_feature_configs(
-    features: tuple, n_fft: int, hop_length: int, n_mels: int, sample_rate: int, use_pcen: bool
+    features: tuple[str, ...],
+    n_fft: int,
+    hop_length: int,
+    n_mels: int,
+    sample_rate: int,
+    use_pcen: bool,
 ) -> list[FeatureConfig]:
     """Create feature configurations from CLI arguments.
 
@@ -208,7 +214,7 @@ def _load_config_file(config_path: Path) -> ExtractionConfig:
         ValueError: If configuration file is invalid
     """
     try:
-        with open(config_path) as f:
+        with config_path.open() as f:
             config_dict = json.load(f)
 
         feature_configs = []

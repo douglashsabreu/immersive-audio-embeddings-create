@@ -25,14 +25,14 @@ class FeatureResult:
     config_used: dict[str, Any] | None = None
 
     @property
-    def shape(self) -> tuple:
+    def shape(self) -> tuple[int, ...]:
         """Get shape of extracted features."""
-        return self.features.shape
+        return tuple(self.features.shape)
 
     @property
     def size(self) -> int:
         """Get total size of extracted features."""
-        return self.features.size
+        return int(self.features.size)
 
 
 @dataclass

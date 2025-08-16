@@ -97,7 +97,7 @@ def main() -> int:
     passed = 0
     failed = 0
 
-    for description, success, output in results:
+    for description, success, _ in results:
         status = "✅ PASSED" if success else "❌ FAILED"
         print(f"{description:<30} {status}")
         if success:

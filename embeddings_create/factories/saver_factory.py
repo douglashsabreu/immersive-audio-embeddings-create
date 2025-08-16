@@ -1,6 +1,6 @@
 """Factory for creating result savers."""
 
-from typing import Any
+from typing import Any, ClassVar
 
 from embeddings_create.interfaces.result_saver import IResultSaver
 from embeddings_create.utils.result_saver import ResultSaver
@@ -14,7 +14,7 @@ class SaverFactory:
     existing code. Currently supports the standard ResultSaver implementation.
     """
 
-    _savers: dict[str, type[IResultSaver]] = {"standard": ResultSaver}
+    _savers: ClassVar[dict[str, type[IResultSaver]]] = {"standard": ResultSaver}
 
     @classmethod
     def create_saver(cls, saver_type: str = "standard", **kwargs: Any) -> IResultSaver:
