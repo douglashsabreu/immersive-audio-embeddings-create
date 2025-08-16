@@ -27,6 +27,11 @@ install-pre-commit: install-dev ## Install pre-commit hooks
 	pre-commit install
 	pre-commit install --hook-type commit-msg
 
+install-git-hooks: ## Install Git hooks for branch protection
+	@echo "$(BLUE)Installing Git hooks for branch protection...$(NC)"
+	./scripts/install_git_hooks.sh
+	@echo "$(GREEN)✓ Git hooks installed$(NC)"
+
 format: ## Format code with black and isort
 	@echo "$(BLUE)Formatting code...$(NC)"
 	black embeddings_create/ main.py --line-length=100
@@ -103,7 +108,7 @@ docs-check: ## Check documentation with pydocstyle
 	pydocstyle embeddings_create/ --convention=google --add-ignore=D100,D104,D105
 	@echo "$(GREEN)✓ Documentation check completed$(NC)"
 
-install-all: install-dev install-pre-commit ## Install everything needed for development
+install-all: install-dev install-pre-commit install-git-hooks ## Install everything needed for development
 
 # Default target
 all: install-all qa test
