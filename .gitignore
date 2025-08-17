@@ -8,3 +8,32 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Generated data and outputs
+data/
+features_extracted/
+output/
+embeddings_visualizations/
+plots/
+*.npz
+spatial_audio_dataset_*.npz
+spatial_audio_embeddings*.npz
+
+# Logs and temporary files
+*.log
+full_extraction.log
+
+# Generated visualizations (if saved to root)
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+# OS files
+.DS_Store
+Thumbs.db
